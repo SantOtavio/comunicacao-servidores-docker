@@ -13,9 +13,9 @@ routes.get("/", async (req, res) => {
     res.json(await productsHandler.getProducts());
 });
 
-routes.post("/getUserProducts", async (req, res) => {
-    const data = req.body;
-    res.json(await productsHandler.getUserProducts(data.cpf));
+routes.get("/:cpf", async (req, res) => {
+    const cpf = req.params.cpf;
+    res.json(await productsHandler.getUserProducts(cpf));
 });
 
 
