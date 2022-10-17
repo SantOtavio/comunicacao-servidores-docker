@@ -15,7 +15,6 @@ async function productsRegister(data = {
 
     console.log(data.userCPF, data.userPassword);
     try {
-
         const rawResponse = await fetch('http://destino:3000/api/users/login', {
             method: 'POST',
             headers: {
@@ -24,16 +23,20 @@ async function productsRegister(data = {
             },
             body: JSON.stringify({ CPF: data.userCPF, Password: data.userPassword })
         });
-        console.log("Chegou linha 26");
         user = await rawResponse.json();
-        console.log("User", user);
         if (user.CPF === data.userCPF) {
-            const product = await crud.save(tableName, undefined, data);
+            const newData = {
+                name: data.name,
+                description: data.description,
+                price: data.price,
+                userCPF: data.userCPF
+            }
+            const product = await crud.save(tableName, null, newData);
             return product;
         } else {
             return { error: "0001", message: "User not found!" };
         }
-    } catch(error){
+    } catch (error) {
         console.log(error);
         return { error: "0001", message: "User not found!" };
     }
